@@ -45,6 +45,29 @@ export default {
           }
         ],
         id: 'btn1'
+      }, {
+        title: 'Creating a Shepherd Tour',
+        text: 'Creating a Shepherd tour is easy. too! Just create a "Tour" instance, and add as many steps as you want.',
+        attachTo: {
+          element: '#btn2',
+          on: 'bottom'
+        },
+        buttons: [
+          {
+            action() {
+              return this.back();
+            },
+            classes: 'shepherd-button-secondary',
+            text: 'Back'
+          },
+          {
+            action() {
+              return this.next();
+            },
+            text: 'Next'
+          }
+        ],
+        id: 'btn2'
       }]
     }
   },

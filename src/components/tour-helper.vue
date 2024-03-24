@@ -1,9 +1,10 @@
 
 <template>
-  <div style="display: none;"></div>
+  <div></div>
 </template>
 <script>
 import Shepherd from 'shepherd.js'
+import Vue from 'vue'
 export default {
   name: 'tour-helper',
   props: {
@@ -38,13 +39,55 @@ export default {
         modalOverlayOpeningRadius: 4,
       }
     });
+
   },
   methods: {
     start() {
       this.tour.addSteps(this.steps);
+
+      this.tour.on('show', ({ step }) => {
+        this.$nextTick(() => {
+          console.log('Step shown:', step);
+          const div = document.createElement('div')
+          const steps = this.steps
+          const currentId = step.id
+          const tour = this.tour
+          const indicatorFn = Vue.extend({
+            template: `<div id="pockerrsdhsfdsdfh">
+              <div v-for="item in steps" :key="item.id" :class="currentId === item.id ? 'blue': ''" @click="jumpTo(item.id)">
+              {{item.id}}
+            </div></div>`,
+            data() {
+              return {
+                steps,
+                currentId,
+                tour
+              }
+            },
+            created() {
+              console.log(this.steps)
+            },
+            methods:{
+              jumpTo(id){
+                console.log(this.tour, id)
+                this.tour.show(id)
+              }
+            }
+          })
+          const indicator = new indicatorFn().$mount()
+          console.log(indicator)
+          step.el.appendChild(indicator.$el)
+        })
+
+        // 在这里可以执行你想要的操作
+      });
       this.tour.start();
     }
   }
 }
 </script>
+<style>
+.blue {
+  color: skyblue
+}
 </style>
